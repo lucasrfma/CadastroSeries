@@ -9,7 +9,7 @@ namespace DIO.Series
         public string Titulo { get; private set; }
         public string Descricao { get; private set; }
         public int Ano { get; private set; }
-        public bool Excluido { get; private set; }
+        public bool Excluida { get; private set; }
 
         // Métodos
         public Serie(int id, Genero genero, string titulo, string descricao, int ano)
@@ -19,15 +19,16 @@ namespace DIO.Series
             Titulo = titulo;
             Descricao = descricao;
             Ano = ano;
-            Excluido = false;
+            Excluida = false;
         }
 
         public override string ToString()
         {
             return "Título: " + Titulo + Environment.NewLine +
-                 "Descrição: " + Descricao + Environment.NewLine +
-                 "Gênero: " + Genero + Environment.NewLine +
-                 "Ano: " + Ano; 
+                   "Descrição: " + Descricao + Environment.NewLine +
+                   "Gênero: " + Genero + Environment.NewLine +
+                   "Ano: " + Ano + Environment.NewLine +
+                   "Excluída: " + Excluida; 
         }
         // public string retornaTitulo()
         // {
@@ -35,7 +36,7 @@ namespace DIO.Series
         // }
         public void Excluir()
         {
-            Excluido = true;
+            Excluida = true;
         }
     }
 }
