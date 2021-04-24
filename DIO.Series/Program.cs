@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DIO.Series
 {
 class Program
 {
-    static SerieRepositorio repositorio = new SerieRepositorio();
+    // static SerieRepositorio repositorio = new SerieRepositorio();
+    static RepositorioEmArquivo<Serie> repositorio = new RepositorioEmArquivo<Serie>("Series.txt");
     static void Main(string[] args)
     {
-        Console.WriteLine($"Bem Vindo - Dio Séries");
+        Serie serie = new Serie();
+        Console.WriteLine($"Bem Vindo - Dio Séries e Filmes");
         string opcao = ObterOpcaoUsuario();
         while(opcao != "X")
         {
@@ -26,7 +29,7 @@ class Program
                     ExcluirSerie();
                     break;
                 case "5":
-                    VisualizarSerie();
+                    Visualizar();
                     break;
                 case "C":
                     Console.Clear();
@@ -43,12 +46,12 @@ class Program
         Console.ReadLine();
     }
 
-    private static void VisualizarSerie()
+    private static void Visualizar()
     {
         try
         {
             InquerirID(out int id);
-            Console.WriteLine(repositorio.Lista()[id]);
+            Console.WriteLine(repositorio.Listar()[id]);
         }
         catch (FormatException e)
         {
@@ -64,7 +67,7 @@ class Program
             InquerirID(out int id);
             Console.WriteLine("--Confirmação--" + Environment.NewLine +
                               "Excluindo:" + Environment.NewLine +
-                              repositorio.Lista()[id] + Environment.NewLine +
+                              repositorio.Listar()[id] + Environment.NewLine +
                               "Confirma exclusão? (s/N)" + Environment.NewLine);
             if( Console.ReadLine().ToLower().Equals("s") )
             {
@@ -157,19 +160,21 @@ class Program
     // para ficar condizente com essa mudança
     private static void ListarSeries()
     {
-        bool algumaSerie = false;
+        // bool algumaSerie = false;
 
-        foreach (var serie in repositorio.Lista())
+        try
         {
-            if(!serie.Excluida)
+            foreach (var serie in repositorio.Listar())
             {
-                algumaSerie = true;
-                Console.WriteLine($"ID {serie.Id}: {serie.Titulo}");
+                if(!serie.Excluida)
+                {
+                    // algumaSerie = true;
+                    Console.WriteLine($"ID {serie.Id}: {serie.Titulo}");
+                }
             }
         }
-        if(!algumaSerie)
-        {
-            Console.WriteLine($"Nenhuma série cadastrada.");
+        catch(Exception){
+            Console.WriteLine($"Arquivo não encontrado.");
         }
     }
 

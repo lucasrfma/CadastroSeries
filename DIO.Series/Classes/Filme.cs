@@ -2,31 +2,34 @@ using System;
 
 namespace DIO.Series
 {
-    public class Serie : EntidadeBase
+    public class Filme : EntidadeBase
     {
         // Atributos
         public Genero Genero { get; protected set; }
         
         public string Descricao { get; protected set; }
         public int Ano { get; protected set; }
-        public bool Excluida { get; protected set; }
+        public bool Excluido { get; protected set; }
+        public int Nominacoes { get; protected set; }
 
         // Métodos
-        public Serie(){}
-        public Serie(int id,
+        public Filme(){}
+        public Filme(int id,
                      Genero genero,
                      string titulo,
                      string descricao,
-                     int ano)
+                     int ano,
+                     int nominacoes)
         {
             Id = id;
             Titulo = titulo;
             Genero = genero;
             Descricao = descricao;
             Ano = ano;
-            Excluida = false;
+            Nominacoes = nominacoes;
+            Excluido = false;
         }
-        public Serie(string[] args)
+        public Filme(string[] args)
         {
             setData(args);
         }
@@ -38,7 +41,8 @@ namespace DIO.Series
             Descricao = args[2];
             Genero = Enum.Parse<Genero>(args[3]);
             Ano = int.Parse(args[4]);
-            Excluida = bool.Parse(args[5]);
+            Nominacoes = int.Parse(args[5]);
+            Excluido = bool.Parse(args[6]);
         }
 
         public override string ToString()
@@ -47,7 +51,8 @@ namespace DIO.Series
                    "Descrição: " + Descricao + Environment.NewLine +
                    "Gênero: " + Genero + Environment.NewLine +
                    "Ano: " + Ano + Environment.NewLine +
-                   "Excluída: " + Excluida; 
+                   "Nominações: " + Nominacoes + Environment.NewLine +
+                   "Excluído: " + Excluido; 
         }
         // retorna uma string sem descrição de campos
         // para ser usada ao armazenar em arquivo
@@ -58,26 +63,13 @@ namespace DIO.Series
                     Descricao + Environment.NewLine +
                     Genero + Environment.NewLine +
                     Ano + Environment.NewLine +
-                    Excluida; 
-        }
-
-        public override bool Equals(object obj)
-        {
-            if( obj.GetType().Equals(this.GetType()) )
-            {
-                return ((Serie)obj).Titulo.Equals(this.Titulo);
-            }
-            return false;
-        }
-
-        public override int GetHashCode()
-        {
-            return Titulo.GetHashCode();
+                    Nominacoes + Environment.NewLine +
+                    Excluido; 
         }
         // Retorna quantas linhas um objeto Serie retorna com os métodos
         // ToString e ToStringArray.
-        public override int NumeroLinhas() => 6;
+        public override int NumeroLinhas() => 7;
 
-        public override void Excluir() => Excluida = true;
+        public override void Excluir() => Excluido = true;
     }
 }
